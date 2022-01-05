@@ -1,1 +1,14 @@
+# version server and client
+kubectl version  
 
+# version of client
+kubectl version -- client 
+
+# состояние k8s cluster
+kubectl get componentstatus 
+
+# info of k8s cluster
+kubectl cluster-info 
+
+# show all servers of k8s cluster
+kubectl get nodes 
