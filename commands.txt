@@ -1,7 +1,5 @@
 # version server and client
 kubectl version  
-# version of client
-kubectl version -- client 
 # состояние k8s cluster
 kubectl get componentstatus 
 # info of k8s cluster
@@ -10,6 +8,9 @@ kubectl cluster-info
 kubectl get nodes 
 
 
-# Создать и Запустить K8s Cluster с параметрами по умолчанию
-eksctl create cluster --name test
- 
+# Создать и Запустить K8s Cluster
+eksctl create cluster --name test-cluster
+eksctl delete cluster --name test-cluster
+# Create from file
+eksctl create cluster -f eks-cluster.yaml
+eksctl delete cluster -f eks-cluster.yaml
