@@ -1,3 +1,5 @@
+FREE - https://labs.play-with-k8s.com 
+
 # version server and client
 kubectl version  
 # состояние k8s cluster
