@@ -1,12 +1,8 @@
-FREE - https://labs.play-with-k8s.com 
+FOR TESTING K8S - https://labs.play-with-k8s.com 
 
-# version server and client
 kubectl version  
-# состояние k8s cluster
 kubectl get componentstatus 
-# info of k8s cluster
 kubectl cluster-info 
-# show all servers of k8s cluster
 kubectl get nodes 
 
 
