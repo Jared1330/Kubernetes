@@ -12,3 +12,12 @@ eksctl delete cluster --name test-cluster
 # Create from file
 eksctl create cluster -f eks-cluster.yaml
 eksctl delete cluster -f eks-cluster.yaml
+
+# Create pod
+kubectl run hello --generator=run-pod/v1 --image=httpd:latest --port=80
+kubectl describe pods hello
+kubectl delete pods hello
+# Run command on pod 
+kubectl exec hello date
+kubectl exec -it hello sh
+kubectl logs hello
