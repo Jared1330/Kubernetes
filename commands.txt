@@ -5,19 +5,109 @@ kubectl get componentstatus
 kubectl cluster-info 
 kubectl get nodes 
 
-
-# Создать и Запустить K8s Cluster
+======   Cluster ==========
 eksctl create cluster --name test-cluster
 eksctl delete cluster --name test-cluster
 # Create from file
 eksctl create cluster -f eks-cluster.yaml
 eksctl delete cluster -f eks-cluster.yaml
 
-# Create pod
-kubectl run hello --generator=run-pod/v1 --image=httpd:latest --port=80
+========= Pod ============
+# create pod
+kubectl run hello --generator=run-pod/v1 --image=httpd:latest --port=80 
 kubectl describe pods hello
 kubectl delete pods hello
 # Run command on pod 
 kubectl exec hello date
 kubectl exec -it hello sh
 kubectl logs hello
+
+=========== Deployments =====================
+# Show all все Depoyments
+kubectl get deployments
+# Show all ReplicaSets
+kubectl get rs	
+# Create Deployment from DockerImage httpd:latest
+kubectl create deployment test-deployment --image httpd:latest 
+# Show all details of Deployments test-deployment
+kubectl describe deplyoments test-deployment	
+# Create ReplicaSets
+kubectl scale deployment test-deployment --replicas 4	  
+# Create AutoScaling for Deployment test
+kubectl autoscale deployment test  --min=10 --max=15 --cpu-percent=80	   
+# Show all HPA - HorizontalAutoScalers
+kubectl get hpa	
+	
+# Update Deployment test-deployment Image to new 
+kubectl set image deployment/test-deployment k8sphp=adv4000/k8sphp:version2 --record	
+# Show status of update
+kubectl rollout status deployment/test-deployment 	
+# Show history of updates
+kubectl rollout history deployment/test-deployment
+# Rollback to previous version
+kubectl rollout undo deployment/test-deployment 	
+# Rollback to defined version
+kubectl rollout undo deployment/test-deployment --to-revision=2	 
+kubectl rollout restart deployment/test-deployment 	# Передеплоить текущую версию
+	
+kubectl delete deployments test-deployment 	Стереть Deployment test-deployment 
+
+============= Services ===============
+kubectl create deployment test-deployment --image nginx:latest	 # Create Deployment from Docker Image nginx:latest
+kubectl get deployment	# show all Depoyments
+kubectl scale deployment test-deployment --replicas 4	# Create ReplicaSets
+kubectl expose deployment test-deployment --type=ClusterIP --port 80	 # Create Service with type ClusterIP for Deployment
+kubectl expose deployment test-deployment --type=NodePort --port 80	# Create Service with type NodePort for Deployment
+kubectl expose deployment test-deployment --type=LoadBalancer --port 80	# Create Service with type LoadBalancer for Deployment
+kubectl get services	# Show all Services
+kubectl get svc	# Show all Services
+kubectl describe nodes | grep ExternalIP	# SHow all External IP for all Worker Nodes
+kubectl delete services  my-webserver	# Remove Service my-webserver
+
+
+
+============= Ingress =====================
+kubectl apply -f https://projectcontour.io/quickstart/contour.yaml	Создать Ingress Controller Contour
+kubectl get services -n projectcontour envoy -o wide	Показать Ingess Controller Load Balancer данные
+kubectl create deployment main    --image=adv4000/k8sphp:latest 	Создать Deployment
+kubectl create deployment web1    --image=adv4000/k8sphp:version1	Создать Deployment
+kubectl create deployment web2    --image=adv4000/k8sphp:version2	Создать Deployment
+kubectl scale deployment main    --replicas 2	Создать ReplicaSets
+kubectl scale deployment web1    --replicas 2	Создать ReplicaSets
+kubectl scale deployment web2    --replicas 2	Создать ReplicaSets
+kubectl expose deployment main   --port 80   # --type=ClusterIP  DEFAULT	Создать Service, по умолчанию тип ClusterIP
+kubectl expose deployment web1   --port 80	Создать Service, по умолчанию тип ClusterIP
+kubectl expose deployment web2   --port 80	Создать Service, по умолчанию тип ClusterIP
+kubectl expose deployment tomcat --port 8080	Создать Service, по умолчанию тип ClusterIP
+	
+kubectl get services -o wide	Показать данные всех Services
+	
+kubectl apply -f ingress-hosts.yaml	Создать Ingress Rules из файла
+kubectl apply -f ingress-paths.yaml	Создать Ingress Rules из файла
+kubectl get ingress	Показать все созданные Ingress Rules
+kubectl describe ingress	Показать все созданные Ingress Rules подробно
+kubectl delete ns projectcontour	Стереть полностью Ingress Controller Contour
+
+Comparison of Ingress Controllers
+https://docs.google.com/spreadsheets/d/191WWNpjJ2za6-nbG4ZoUMXMpUK8KlCIosvQB0f-oq3k/
+
+
+
+=========== Helm ===================
+helm version	Пока версию Helm
+helm list	Показать все задеплоенные Helm Releases
+	
+helm search hub	Показать Helm Chart с общего списка Hub
+helm search repo	Показать Helm Chart из добавленных Repos
+	
+helm install app1 Test-Chart/	Задеплоить Helm Chart app1 из директории Test-Chart
+helm upgrade app1 Test-Chart/ --set container.image=adv4000/k8sphp:version2	Обновить Деплоймент app1
+	
+helm create MyChart	Сделать скелет Helm Chart в директории MyChart
+helm package Test-Chart/	Запаковать Helm Chart в tgz архив
+helm install app2 App-HelmChart-0.1.0.tgz	Задеплоить Helm Chart app2 из архива
+helm delete app1	Удалить Деплоймент Helm Chart app1
+helm uninstall app1	Удалить Деплоймент Helm Chart app1
+	
+helm repo add bitnami https://charts.bitnami.com/bitnami	Добавить Helm Chart Repo от bitnami
+helm install my_website bitnami/apache -f my_values.yaml	Задеплоить Helm Chart bitnami/apache с нашими переменными
