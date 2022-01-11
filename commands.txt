@@ -23,6 +23,7 @@ eksctl delete cluster -f eks-cluster.yaml
 
 
 ========= Pod ============
+kubectl get pods 
 # create pod
 kubectl run hello --generator=run-pod/v1 --image=httpd:latest --port=80 
 kubectl describe pods hello
