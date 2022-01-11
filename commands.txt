@@ -1,5 +1,13 @@
 FOR TESTING K8S - https://labs.play-with-k8s.com 
 
+Объкты k8s: 
+1. Pod - объект, в котором работают один или более контеинеров
+2. Deployment - Сет одинаковых Pod, нужен для AutoScalling и для обновления Image, держит минимальное кл-во работающих Pods.
+3. Service - дает доступ к Deployment через ClusterIP, NodePort, LoadBalanser.
+4. Nodes - сервера
+5. Cluster - логическое обьеденение Nodes
+
+
 kubectl version  
 kubectl get componentstatus 
 kubectl cluster-info 
