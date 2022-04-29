@@ -2,41 +2,12 @@ OR TESTING K8S - https://labs.play-with-k8s.com
 
 Объкты k8s: 
 1. Nodes - сервера
-2. Pod - объект, в котором работают один или более контеинеров
-3. ReplicaSet - гарантирует, что определенное количество экземпляров подов будет запущено в кластере Kubernetes в любой момент времени.	
-4. Deployment - то же что и РепликаСет но плюс может обновлять поди при изменениях
-5. Service - дает доступ к Deployment через ClusterIP, NodePort, LoadBalanser.
-6. Cluster - логическое обьеденение Nodes
-
-
-kubectl version  
-kubectl get componentstatus 
-kubectl cluster-info 
-kubectl get nodes 
-
-
-======   Cluster ==========
-eksctl create cluster --name test-cluster
-eksctl delete cluster --name test-cluster
-# Create from file
-eksctl create cluster -f eks-cluster.yaml
-eksctl delete cluster -f eks-cluster.yaml
-
-
-========= Pod ============
-kubectl get pods 
-# create pod
-kubectl run hello --generator=run-pod/v1 --image=httpd:latest --port=80 
-kubectl describe pods hello
-kubectl delete pods hello
-# Run command on pod 
-kubectl exec hello date
-kubectl exec -it hello sh
-kubectl logs hello
-
-# Create Pod from file
-kubectl apply -f pod-myapp.yaml
-kubectl delete -f pod-myapp.yaml
+2. Cluster - логическое обьеденение Nodes
+3. Pod - объект, в котором работают один или более контеинеров
+4. ReplicaSet - гарантирует, что определенное количество экземпляров подов будет запущено в кластере Kubernetes в любой момент времени.	
+5. Deployment - то же что и РепликаСет но плюс может обновлять поди при изменениях
+6. Namespace - роздилитель пространста имен.
+7. Service - дает доступ к Deployment через ClusterIP, NodePort, LoadBalanser.
 
 
 =========== Deployments =====================
