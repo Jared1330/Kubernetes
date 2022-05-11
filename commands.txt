@@ -7,7 +7,13 @@ OR TESTING K8S - https://labs.play-with-k8s.com
 4. ReplicaSet - гарантирует, что определенное количество экземпляров подов будет запущено в кластере Kubernetes в любой момент времени.	
 5. Deployment - то же что и РепликаСет но плюс может обновлять поди при изменениях
 6. Namespace - роздилитель пространста имен.
-7. Service - дает доступ к Deployment через ClusterIP, NodePort, LoadBalanser.
+7. Probes - контроль за состоянием приложения во время его жизни.
+8. Service - способ публикации и настройки сети.Типы: 
+- ClusterIP - тип сервиса для внутрикластирного взаимодествия частей приложения. Например для общение FrontEnd и BackEnd.
+- NodePort - для портов. 
+- LoadBalanser - используеться в облаках. 
+- ExternalName -  
+- ExternalIPs
 
 
 =========== Deployments =====================
