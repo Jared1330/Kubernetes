@@ -1,142 +1,52 @@
-OR TESTING K8S - https://labs.play-with-k8s.com 
+Get all contexts:
+kubectl config get-contexts
+Check current cluster:
+kubectl config current-context
+Switch to another accout:
+kubectl config use-context CONTEXT
 
-Объкты k8s: 
-1. Nodes - сервера
-2. Cluster - логическое обьеденение Nodes
-3. Pod - объект, в котором работают один или более контеинеров
-4. ReplicaSet - гарантирует, что определенное количество экземпляров подов будет запущено в кластере Kubernetes в любой момент времени.	
-5. Deployment - то же что и РепликаСет но плюс может обновлять поди при изменениях
-6. Namespace - роздилитель пространста имен.
-7. Probes - контроль за состоянием приложения во время его жизни.
-8. Job - запускает один и более pod  и будет продолжать єто делать до тех пор, пока указанное кл-во pod не будет выполненно.
-9. CronJob - то же что и job, но выполняеться по графику. 
-10. Service - способ публикации и настройки сети.Типы: 
-- ClusterIP - тип сервиса для внутрикластирного взаимодествия частей приложения. Например для общение FrontEnd и BackEnd.
-- NodePort - для портов, ClusterIP создаеться автоматически.
-- LoadBalanser - предоставляет доступ с помощью балансировщика нагрузки облачного провайдера. Службы NodePort и ClusterIP, к которым маршрутизирует внешний балансировщик нагрузки, создаются автоматически.
-- ExternalName -  
-- ExternalIPs
+Get all components for namespace:
+kubectl get all -n NAMESPACE
 
+Get pod:
+kubectl get pod -n NAMESPACE
+Describe pod:
+kubectl describe pod POD
 
-=========== Deployments =====================
-# Show all все Depoyments
+Get deployments:
 kubectl get deployments
-# Show all ReplicaSets
-kubectl get rs	
-# Create Deployment from DockerImage httpd:latest
-kubectl create deployment test-deployment --image httpd:latest 
-# Show all details of Deployments test-deployment
-kubectl describe deplyoments test-deployment	
-# Create ReplicaSets
-kubectl scale deployment test-deployment --replicas 4	  
-# Create AutoScaling for Deployment test
-kubectl autoscale deployment test  --min=10 --max=15 --cpu-percent=80	   
-# Show all HPA - HorizontalAutoScalers
-kubectl get hpa	
-	
-# Update Deployment test-deployment Image to new 
-kubectl set image deployment/test-deployment k8sphp=adv4000/k8sphp:version2 --record	
-# Show status of update
-kubectl rollout status deployment/test-deployment 	
-# Show history of updates
-kubectl rollout history deployment/test-deployment
-# Rollback to previous version
-kubectl rollout undo deployment/test-deployment 	
-# Rollback to defined version
-kubectl rollout undo deployment/test-deployment --to-revision=2	 
-# Re-deploy current version
-kubectl rollout restart deployment/test-deployment 	
+Describe:
+kubectl describe deployments DEPLOYMENT
+Get current status:
+kubectl rollout status deployment DEPLOYMENT
+Get history of deploy:
+kubectl rollout history deployment DEPLOYMENT
+Rollback:
+kubectl rollout undo deployment DEPLOYMENT
 
-# Delete Deployment test-deployment 
-kubectl delete deployments test-deployment 	
+Get jobs:
+kubectl get jobs -n NAMESPACE
+
+Get CronJobs:
+kubectl get cronjobs -n NAMESPACE
+
+Service:
+kubectl get service -n NAMESPACE
+k get svc
+
+Ingress:
+k get ing -n NAMESPACE
+
+Debug:
+k get events -n NAMESPACE
 
 
-============= Services ===============
-# Create Deployment from Docker Image nginx:latest
-kubectl create deployment test-deployment --image nginx:latest	 
-# show all Depoyments
-kubectl get deployment	
-# Create ReplicaSets
-kubectl scale deployment test-deployment --replicas 4	
- # Create Service with type ClusterIP for Deployment
-kubectl expose deployment test-deployment --type=ClusterIP --port 80	
-# Create Service with type NodePort for Deployment
-kubectl expose deployment test-deployment --type=NodePort --port 80	
-# Create Service with type LoadBalancer for Deployment
-kubectl expose deployment test-deployment --type=LoadBalancer --port 80	
-# Show all Services
-kubectl get services
-# Show all Services
-kubectl get svc	
-# SHow all External IP for all Worker Nodes
-kubectl describe nodes | grep ExternalIP
-# Remove Service my-webserver
-kubectl delete services  my-webserver	
+========== Pod ================
+k run app-1 --image nginx:latest --port=8000
+k describe pod POD
+k logs POD
+k get po --show-labels
+k get po -l label
+k delete po POD
 
-
-============= Ingress =====================
-# Create Ingress Controller Contour
-kubectl apply -f https://projectcontour.io/quickstart/contour.yaml
-# Show Ingess Controller Load Balancer data
-kubectl get services -n projectcontour envoy -o wide	
-# Create Deployment
-kubectl create deployment main    --image=adv4000/k8sphp:latest 	
-kubectl create deployment web1    --image=adv4000/k8sphp:version1	
-kubectl create deployment web2    --image=adv4000/k8sphp:version2	
-# Create ReplicaSets
-kubectl scale deployment main    --replicas 2	
-kubectl scale deployment web1    --replicas 2	
-kubectl scale deployment web2    --replicas 2	
-# Create Service, by default type is ClusterIP
-kubectl expose deployment main   --port 80   # --type=ClusterIP  DEFAULT	
-kubectl expose deployment web1   --port 80	
-kubectl expose deployment web2   --port 80	
-kubectl expose deployment tomcat --port 8080	
-	
-# Show data of all Services
-kubectl get services -o wide	
-	
-# Create Ingress Rules from file
-kubectl apply -f ingress-hosts.yaml	
-kubectl apply -f ingress-paths.yaml	
-# Show all data of Ingress Rules
-kubectl get ingress	
-# Show all data of  Ingress Rules in details
-kubectl describe ingress	
-# Remove Ingress Controller Contour
-kubectl delete ns projectcontour	
-
-Comparison of Ingress Controllers
-https://docs.google.com/spreadsheets/d/191WWNpjJ2za6-nbG4ZoUMXMpUK8KlCIosvQB0f-oq3k/
-
-
-=========== Helm ===================
-# Show Helm version
-helm version	
-# Show all deployed Helm Releases
-helm list	
-	
-# Show Helm Chart from common list Hub
-helm search hub	
-# Show Helm Chart from added Repos
-helm search repo	
-	
-# Deploy Helm Chart app1 from directory Test-Chart
-helm install app1 Test-Chart/	
-# Update Deployment app1
-helm upgrade app1 Test-Chart/ --set container.image=adv4000/k8sphp:version2	
-	
-# Create Helm Chart in directory MyChart
-helm create MyChart	
-# Zip Helm Chart in tgz arhicve
-helm package Test-Chart/	
-# Deploy Helm Chart app2 from arhicve
-helm install app2 App-HelmChart-0.1.0.tgz	
-# Remove Деплоймент Helm Chart app1
-helm delete app1	
-helm uninstall app1	
-	
-# Add Helm Chart Repo of bitnami
-helm repo add bitnami https://charts.bitnami.com/bitnami	
-# Deploy Helm Chart bitnami/apache with my vars
-helm install my_website bitnami/apache -f my_values.yaml	З
+========== 
