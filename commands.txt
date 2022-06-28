@@ -1,3 +1,8 @@
+minikube start --vm-driver=virtualbox
+minikube status
+minikube ip
+
+
 Get all contexts:
 kubectl config get-contexts
 Check current cluster:
