@@ -12,6 +12,9 @@ Get pod:
 kubectl get pod -n NAMESPACE
 Describe pod:
 kubectl describe pod POD
+k logs POD
+k get po --show-labels
+k get po -l label
 
 Get deployments:
 kubectl get deployments
@@ -39,14 +42,3 @@ k get ing -n NAMESPACE
 
 Debug:
 k get events -n NAMESPACE
-
-
-========== Pod ================
-k run app-1 --image nginx:latest --port=8000
-k describe pod POD
-k logs POD
-k get po --show-labels
-k get po -l label
-k delete po POD
-
-========== 
