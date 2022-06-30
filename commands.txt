@@ -20,6 +20,7 @@ kubectl describe pod POD
 k logs POD
 k get po --show-labels
 k get po -l label
+k port-forward POD 5555:80
 
 Get deployments:
 kubectl get deployments
