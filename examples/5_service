@@ -1,3 +1,9 @@
+Виды k8s Services:
+- ClusterIP: IP только внутри k8s Cluster (default)
+- NodePort: определенный порт на ВСЕХ k8s Workes Nodes
+- ExternalName: DNS CNAME Record
+- LoadBalancer: Только в Cloud Clusters
+
 apiVersion: v1
 kind: Service
 metadata:
