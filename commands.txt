@@ -48,3 +48,10 @@ k get ing -n NAMESPACE
 
 Debug:
 k get events -n NAMESPACE
+
+
+Helm:
+helm list
+helm install app Chart-Folder/ -f prod_values.yaml
+help package
+help delete app
