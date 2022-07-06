@@ -1,20 +1,21 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: my-web-deployment
+  name: frontend
   labels:
-    app : my-k8s-application
+    app : frontend
 spec:
+  replicas: 3
   selector:
     matchLabels:
-      project: kgb
+      project: web
   template:
     metadata:
       labels:
-        project: kgb
+        project: web
     spec:
       containers:
-        - name : kgb-web
-          image: adv4000/k8sphp:latest
+        - name : frontend
+          image: ruslan121/k8sphp:1.0
           ports:
             - containerPort: 80
