@@ -44,7 +44,25 @@ spec:
   type: ClusterIP
 
 Login to pod and run:
-while true; do curl http://IP; sleep 2; echo; done
+while true; do curl http://CLUSTER_IP; sleep 2; echo; done
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+
+Go to minikube IP : port (take from k get svc)
+
 
 
 ---
