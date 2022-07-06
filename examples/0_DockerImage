@@ -1,0 +1,22 @@
+FROM amazonlinux
+
+RUN yum -y update \
+    yum -y install httpd \
+    yum -y install php
+
+COPY ./index.php /var/www/html/index.php
+
+CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
+
+EXPOSE 80
+
+
+
+index.php:
+<?php
+$ip_server = $_SERVER['SERVER_ADDR'];
+
+echo "<h1>Hello From Kubernetes</h1><br>";
+echo "Server IP Address is: $ip_server", "<br><p>";
+echo "Made by <font color=blue>Denis Astahov";
+?>
