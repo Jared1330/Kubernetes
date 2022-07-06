@@ -2,65 +2,39 @@ apiVersion: v1
 kind: Namespace
 metadata:
    name: qa
+
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
    name: dev
----
 
+---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: app-kuber-qa-1
+  name: frontend
   namespace: qa
   labels: 
      app: web
 spec:
   containers:
-  - name: app-kuber-container
-    image: nginx:latest
+  - name: frontend
+    image: ruslan121/k8sphp:1.0
     ports:
     - containerPort: 8000
+
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: app-kuber-qa-2
-  namespace: qa
-  labels: 
-     app: web
-spec:
-  containers:
-  - name: app-kuber-container
-    image: nginx:latest
-    ports:
-    - containerPort: 8000
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: app-kuber-dev-1
+  name: frontend
   namespace: dev
   labels: 
      app: web
 spec:
   containers:
-  - name: app-kuber-container
-    image: nginx:latest
-    ports:
-    - containerPort: 8000
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: app-kuber-dev-2
-  namespace: dev
-  labels: 
-     app: web
-spec:
-  containers:
-  - name: app-kuber-container
-    image: nginx:latest
+  - name: frontend
+    image: ruslan121/k8sphp:1.0
     ports:
     - containerPort: 8000
