@@ -1,13 +1,65 @@
-apiVersion: networking.k8s.io/v1beta1
+Почему его используют ?
+1. Каждый новый сервис - это новый load balancer, что дорого.
+2. Ingress работает на 7 уровне OSI что дает нам сохранения сесии на основе файлов куки (чего нет в сервисах)
+
+Firstly install ingress:
+- minikube  addons list
+- minikube addons enable ingress
+- add to /etc/hosts:
+IP app.example.com
+
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app : frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: frontend
+  template:
+    metadata:
+      labels:
+        project: frontend
+    spec:
+      containers:
+        - name : frontend
+          image: ruslan121/k8sphp:1.0
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    owner: Ruslan
+spec:
+  selector:
+    project: frontend   # Selecting PODS with those Labels
+  ports:
+    - protocol: TCP
+      port: 80          # Port on Load Balancer
+      targetPort: 80    # Port on POD
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-hosts
-
+  name: frontend
 spec:
   rules:
-  - host: example.com
+  - host: app.example.com
     http:
       paths:
-        - backend:
-           serviceName: main
-           servicePort: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
