@@ -12,8 +12,3 @@ spec:
       ports:
         - containerPort: 80
         
-
-
-
-kubectl describe pod  frontend
-k port-forward frontend 5555:80
