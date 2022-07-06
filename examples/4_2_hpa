@@ -1,24 +1,22 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: my-web-deployment-autoscaling
+  name: frontend
   labels:
-    app  : my-k8s-application
-    env  : prod
-    owner: DenisAstahov
+    app : frontend
 spec:
-#  replicas: 2   # Don't need this anymore as we are using HorizontalPodAutoscaler
+# replicas: 3   # Don't need this anymore as we are using HorizontalPodAutoscaler
   selector:
     matchLabels:
-      project: mossad
+      project: web
   template:
     metadata:
       labels:
-        project: mossad
+        project: web
     spec:
       containers:
-        - name : mossad-web
-          image: adv4000/k8sphp:version2
+        - name : frontend
+          image: ruslan121/k8sphp:1.0
           ports:
             - containerPort: 80
 
@@ -26,13 +24,13 @@ spec:
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: my-autoscaling
+  name: frontend-autoscaling
 spec:
   scaleTargetRef:
     apiVersion: apps/v2beta1v1
     kind: Deployment
-    name: my-web-deployment-autoscaling
-  minReplicas: 2
+    name: frontend
+  minReplicas: 3
   maxReplicas: 6
   metrics:
   - type: Resource
