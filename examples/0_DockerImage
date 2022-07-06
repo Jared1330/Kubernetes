@@ -19,3 +19,9 @@ $ip_server = $_SERVER['SERVER_ADDR'];
 echo "<h1>Hello From Kubernetes</h1><br>";
 echo "Server IP Address is: $ip_server", "<br><p>";
 ?>
+
+
+docker build -t ruslan121/k8sphp:1.0 .
+docker login
+docker push ruslan121/k8sphp:1.0 
+docker run -d -p 1234:80 ruslan121/k8sphp:1.0
