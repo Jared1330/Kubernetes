@@ -1,13 +1,19 @@
 apiVersion : v1
 kind: Pod
 metadata:
-  name: hello
+  name: frontend
   labels:
     env  : prod
     app  : main
 spec:
   containers:
-    - name : container-hello
-      image: nginx:latest
+    - name : frontend
+      image: ruslan121/k8sphp:1.0
       ports:
         - containerPort: 80
+        
+
+
+
+kubectl describe pod  frontend
+k port-forward frontend 5555:80
