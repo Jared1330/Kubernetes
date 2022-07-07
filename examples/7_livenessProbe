@@ -1,4 +1,8 @@
 Checking if pod is "alive" based of deficed params. If not - pod will be restarted. 
+3 types:
+- Exec (bash command)
+- TCP
+- HTTP GET
 
 apiVersion: apps/v1
 kind: Deployment
