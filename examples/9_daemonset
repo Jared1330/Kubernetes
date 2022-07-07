@@ -1,3 +1,5 @@
+Make sure that on 1 node - only 1 pod will be created
+
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
