@@ -1,3 +1,5 @@
+Checking if pod is "alive" based of deficed params. If not - pod will be restarted. 
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
