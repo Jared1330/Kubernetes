@@ -1,3 +1,7 @@
+Отвечает за доступность пода - то есть когда его регистрировать к сервису для того что направлять на него трафик.
+То есть когда readinessprobe faiiled - no trafic.
+Типы такие же как и в livenessprobe
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
