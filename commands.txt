@@ -38,6 +38,7 @@ kubectl get jobs -n NAMESPACE
 
 Get CronJobs:
 kubectl get cronjobs -n NAMESPACE
+kubectl logs job.batch/JOB
 
 Service:
 kubectl get service -n NAMESPACE
