@@ -5,6 +5,11 @@ kind: CronJob
 metadata: 
   name: hello
 spec: 
+  successfulJobsHistoryLimit: 3  # How many completed jobs should be kept. By default 3
+  failedJobsHistoryLimit: 1     # How many failed jobs should be kept. By default 1
+  concurrencyPolicy: Forbid   # Run 2 jobs at the same time. For example when 1 job is still running, and it's time for 2 to run. Possible: Allow, Forbid, Replace (by default is Allow) 
+  schedule: "*/1 * * * *"
+  suspend: false  # Disable all next executions
   jobTemplate: 
     spec: 
       template: 
@@ -17,5 +22,4 @@ spec:
                 - "date; echo Hello from the Kubernetes cluster"
               image: busybox
               name: hello
-          restartPolicy: OnFailure
-  schedule: "*/1 * * * *"
+          restartPolicy: OnFailure   
