@@ -35,6 +35,10 @@ kubectl rollout undo deployment DEPLOYMENT
 
 Get jobs:
 kubectl get jobs -n NAMESPACE
+Create job from cronjob:
+k create job --from=cronjob.batch/JOB JOB -n NAMESPACE
+Remove job:
+k delete job JOB -n NAMESPACE
 
 Get CronJobs:
 kubectl get cronjobs -n NAMESPACE
