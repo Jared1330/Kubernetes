@@ -15,6 +15,7 @@ kubectl get all -n NAMESPACE
 
 Get pod:
 kubectl get pod -n NAMESPACE
+kubectl get pods --all-namespaces
 Describe pod:
 kubectl describe pod POD
 k logs POD
